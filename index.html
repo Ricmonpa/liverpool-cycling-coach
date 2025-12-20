@@ -6,6 +6,10 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="ad.size" content="width=430,height=932">
     <title>Liverpool Cycling Fest - AI Assistant Banner</title>
+    <!-- API Key inyectada para Gemini -->
+    <script>
+        window.GEMINI_API_KEY = 'AIzaSyCt-6SVeTRNu3SiGGEq_FgSvcBF036s9YI';
+    </script>
     <!-- Tailwind CDN - TODO: Migrar a build compilado para producción final -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -324,7 +328,27 @@
         
         // Validar que la API Key esté configurada
         if (!GEMINI_API_KEY) {
-            console.error('⚠️ GEMINI_API_KEY no está configurada. Configúrala en Cloudflare Pages o usando un script externo.');
+            console.error('⚠️ GEMINI_API_KEY no está configurada. Configúrala en Cloudflare Pages → Settings → HTML Injection.');
+            // Mostrar mensaje de error al usuario si no hay key
+            if (typeof chatMessages !== 'undefined') {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'flex items-start space-x-2 w-full min-w-0';
+                errorDiv.innerHTML = `
+                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-liverpool-magenta p-[2px] shadow-liverpool-magenta">
+                        <div class="h-full w-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                            <img src="./whats-chat.avif" alt="Liverpool AI" class="h-full w-full object-cover rounded-full">
+                        </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="glass-panel bg-gradient-to-br from-white to-liverpool-magenta/5 text-black p-3 rounded-tl-none rounded-2xl shadow-lg border-l-2 border-liverpool-magenta">
+                            <p class="text-sm leading-snug break-words">
+                                <span class="font-bold text-liverpool-magenta">⚠️ Configuración requerida:</span> La API Key no está configurada. Por favor, configura <code>window.GEMINI_API_KEY</code> en Cloudflare Pages.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(errorDiv);
+            }
         }
         
         const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
