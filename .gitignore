@@ -17,6 +17,11 @@ node_modules/
 .env.local
 .env.production
 
+# Config files with API keys (NUNCA subir a Git)
+config.js
+api-key.js
+secrets.js
+
 # IDE
 .vscode/
 .idea/

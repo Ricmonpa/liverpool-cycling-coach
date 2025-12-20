@@ -315,8 +315,18 @@
         // ============================================
         // CONFIGURACIÓN GEMINI API
         // ============================================
-        const GEMINI_API_KEY = 'AIzaSyDhkRsRMnWXqXfZMzVQh6MtG_YEajhe6Cc';
+        // IMPORTANTE: La API Key debe configurarse de forma segura
+        // Opción 1: Variable de entorno (Cloudflare Pages)
+        // Opción 2: Script externo que inyecta window.GEMINI_API_KEY
+        // Opción 3: Proxy backend (recomendado para producción)
+        const GEMINI_API_KEY = window.GEMINI_API_KEY || '';
         const GEMINI_MODEL = 'gemini-2.5-flash';
+        
+        // Validar que la API Key esté configurada
+        if (!GEMINI_API_KEY) {
+            console.error('⚠️ GEMINI_API_KEY no está configurada. Configúrala en Cloudflare Pages o usando un script externo.');
+        }
+        
         const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
         // Prompt del sistema para el asistente
