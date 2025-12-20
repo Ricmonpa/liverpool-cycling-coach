@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=430, height=932, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="ad.size" content="width=430,height=932">
+    <title>Liverpool Cycling Fest - AI Assistant Banner</title>
+    <!-- Tailwind CDN - TODO: Migrar a build compilado para producción final -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        liverpool: {
+                            magenta: '#E10098',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'liverpool-magenta': '0 0 20px -5px rgba(225, 0, 152, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            /* Ocultar scrollbar para experiencia nativa */
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
+            }
+            
+            /* Fondo estilo "Glassmorphism" */
+            .glass-panel {
+                @apply bg-white/90 backdrop-blur-lg border border-liverpool-magenta/20;
+            }
+            
+            /* Asegurar que el texto no se corte */
+            * {
+                box-sizing: border-box;
+            }
+
+            /* Gradiente de texto vibrante */
+            .text-gradient-liverpool {
+                color: #E10098;
+            }
+
+            /* Animación shimmer para efectos de brillo */
+            @keyframes shimmer {
+                0% {
+                    transform: translateX(-100%);
+                }
+                100% {
+                    transform: translateX(100%);
+                }
+            }
+            .shimmer-effect {
+                animation: shimmer 2s infinite;
+            }
+
+            /* Carrusel de productos */
+            .product-carousel-container {
+                width: 100%;
+                margin-top: 16px;
+                margin-bottom: 8px;
+            }
+
+            .product-carousel {
+                display: flex;
+                gap: 12px;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                padding: 8px 4px 16px 4px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .product-carousel::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .product-carousel::-webkit-scrollbar-track {
+                background: rgba(225, 0, 152, 0.1);
+                border-radius: 2px;
+            }
+
+            .product-carousel::-webkit-scrollbar-thumb {
+                background: rgba(225, 0, 152, 0.4);
+                border-radius: 2px;
+            }
+
+            .product-card {
+                flex: 0 0 160px;
+                scroll-snap-align: start;
+                transition: transform 0.2s ease;
+            }
+
+            .product-card:hover {
+                transform: scale(1.02);
+            }
+
+            .product-card img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                display: block;
+            }
+
+            .product-image-container {
+                position: relative;
+                width: 100%;
+                height: 160px;
+                overflow: hidden;
+            }
+
+            .product-price-old {
+                text-decoration: line-through;
+                opacity: 0.6;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+        
+        body {
+            /* Fondo general de la página (fuera del banner) */
+            background-color: #ffffff; 
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <main class="absolute top-0 left-0 w-full max-w-[390px] h-[700px] bg-white rounded-[30px] overflow-hidden shadow-2xl border border-liverpool-magenta/30 m-4" style="overflow-x: hidden !important;">
+        
+        <header class="relative z-10 flex items-center justify-between p-5 bg-liverpool-magenta backdrop-blur-md border-b border-liverpool-magenta/30">
+            <div class="flex items-center space-x-3">
+                <!-- Logo Liverpool -->
+                <div class="flex-shrink-0">
+                    <img src="./logo.svg" alt="Liverpool" class="h-12 w-auto object-contain" style="max-width: 150px; height: auto; filter: brightness(0) invert(1);">
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold uppercase leading-none tracking-wider text-white">
+                        Cycling Fest <span class="text-white">AI</span>
+                    </h1>
+                    <span class="text-xs text-white/90 tracking-widest uppercase font-semibold">Asistente de Alto Rendimiento</span>
+                </div>
+            </div>
+            <div class="h-3 w-3 rounded-full bg-white animate-pulse shadow-lg"></div>
+        </header>
+
+        <section id="chatSection" class="relative z-0 px-3 py-4 overflow-y-auto scrollbar-hide" style="overflow-x: hidden; width: 100%; box-sizing: border-box; height: calc(100% - 80px - 88px); padding-bottom: 180px; margin-bottom: 0;">
+            <div class="absolute top-20 left-0 w-64 h-64 bg-liverpool-magenta/10 rounded-full filter blur-[80px] -z-10"></div>
+            <div class="absolute bottom-40 right-0 w-40 h-40 bg-liverpool-magenta/10 rounded-full filter blur-[60px] -z-10"></div>
+            
+            <div id="chatMessages" class="space-y-4" style="width: 100%; box-sizing: border-box; overflow: visible;">
+            <div class="flex justify-end w-full">
+                <div class="glass-panel text-black p-3 rounded-tr-none rounded-2xl max-w-[90%] min-w-0 shadow-lg" style="word-wrap: break-word; overflow-wrap: break-word;">
+                    <p class="text-sm font-medium leading-snug break-words" style="word-break: break-word; overflow-wrap: break-word;">
+                        Me da miedo la subida del km 28, ¿qué me recomiendas? 😰
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="flex items-start space-x-2 w-full min-w-0">
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-liverpool-magenta p-[2px] shadow-liverpool-magenta">
+                    <div class="h-full w-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                        <img src="./whats-chat.avif" alt="Liverpool AI" class="h-full w-full object-cover rounded-full">
+                    </div>
+                </div>
+                
+                <div class="flex-1 min-w-0 space-y-4" style="min-width: 0; max-width: 100%; box-sizing: border-box; width: 100%;">
+                    <div class="glass-panel bg-gradient-to-br from-white to-liverpool-magenta/5 text-black p-3 rounded-tl-none rounded-2xl shadow-lg border-l-2 border-liverpool-magenta" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; width: 100%; min-width: 0; display: block;">
+                        <p class="text-sm leading-snug break-words whitespace-normal" style="word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%; width: 100%; display: block; margin: 0; padding: 0; min-height: fit-content; height: auto; overflow: visible;">
+                            <span class="font-bold text-liverpool-magenta">¡Entendido, atleta!</span> Esa pared es legendaria, pero tú eres más fuerte. 🔥 
+                            <br><br>
+                            Analicé el segmento: necesitas un boost de energía justo antes y reducir peso. Te preparé este <span class="font-semibold italic">Kit de Ataque al Km 28</span> para que vueles en esa cuesta:
+                        </p>
+                    </div>
+
+                    <div class="relative w-full" style="overflow-x: hidden;"> 
+                        <div class="flex space-x-2 snap-x snap-mandatory scrollbar-hide py-2" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                            
+                            <div class="snap-center flex-shrink-0 w-[170px] glass-panel rounded-2xl overflow-hidden shadow-liverpool-magenta/30 hover:shadow-liverpool-magenta/60 transition-all duration-300 group relative">
+                                <div class="absolute top-2 right-2 bg-liverpool-magenta text-white text-[10px] font-bold px-2 py-1 rounded-full z-20 uppercase tracking-wider shadow-sm">Esencial Km 25</div>
+                                <div class="h-28 bg-gradient-to-tr from-white to-liverpool-magenta/10 relative flex items-center justify-center overflow-hidden border-b border-liverpool-magenta/10">
+                                    <div class="absolute inset-0 bg-liverpool-magenta/5 mix-blend-overlay group-hover:bg-liverpool-magenta/10 transition-all"></div>
+                                    <svg class="h-16 w-16 text-liverpool-magenta/20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                    <span class="absolute bottom-2 left-2 text-xs text-liverpool-magenta/70 font-mono">Pack x6 Geles</span>
+                                </div>
+                                <div class="p-2.5 relative bg-white">
+                                    <h3 class="text-black font-bold text-[11px] leading-tight mb-1">GU Energy Gels - Cafeína</h3>
+                                    <div class="flex items-center space-x-1.5 mb-2.5">
+                                        <span class="text-liverpool-magenta font-extrabold text-lg">$499</span>
+                                        <span class="text-black/50 text-[10px] line-through">$650</span>
+                                    </div>
+                                    <button class="w-full py-2 bg-liverpool-magenta hover:bg-liverpool-magenta/90 text-white text-[10px] font-extrabold rounded-lg uppercase tracking-wide shadow-lg transform active:scale-95 transition-all relative overflow-hidden">
+                                        <span class="relative z-10">AGREGAR AL CARRITO</span>
+                                        <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent shimmer-effect"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="snap-center flex-shrink-0 w-[170px] glass-panel rounded-2xl overflow-hidden shadow-liverpool-magenta/30 hover:shadow-liverpool-magenta/60 transition-all duration-300 group relative border-liverpool-magenta/20">
+                                 <div class="h-28 bg-gradient-to-tr from-white to-liverpool-magenta/10 relative flex items-center justify-center overflow-hidden border-b border-liverpool-magenta/10">
+                                    <div class="absolute inset-0 bg-liverpool-magenta/5 mix-blend-overlay group-hover:bg-liverpool-magenta/10 transition-all"></div>
+                                    <svg class="h-16 w-16 text-liverpool-magenta/20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                    <span class="absolute bottom-2 left-2 text-xs text-liverpool-magenta/70 font-mono">Ligero y transpirable</span>
+                                </div>
+                                <div class="p-2.5 bg-white">
+                                    <h3 class="text-black font-bold text-[11px] leading-tight mb-1">Chaleco Hidratación Salomon Active</h3>
+                                    <div class="flex items-center space-x-1.5 mb-2.5">
+                                        <span class="text-liverpool-magenta font-extrabold text-lg">$2,899</span>
+                                    </div>
+                                    <button class="w-full py-2 bg-liverpool-magenta hover:bg-liverpool-magenta/90 text-white text-[10px] font-extrabold rounded-lg uppercase tracking-wide shadow-lg transform active:scale-95 transition-all relative overflow-hidden">
+                                        <span class="relative z-10">AGREGAR AL CARRITO</span>
+                                        <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent shimmer-effect"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="snap-center flex-shrink-0 w-[170px] glass-panel rounded-2xl overflow-hidden shadow-liverpool-magenta/30 hover:shadow-liverpool-magenta/60 transition-all duration-300 group relative">
+                                 <div class="h-28 bg-gradient-to-tr from-white to-liverpool-magenta/10 relative flex items-center justify-center overflow-hidden border-b border-liverpool-magenta/10">
+                                    <div class="absolute inset-0 bg-liverpool-magenta/5 mix-blend-overlay group-hover:bg-liverpool-magenta/10 transition-all"></div>
+                                    <svg class="h-16 w-16 text-liverpool-magenta/20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                    <span class="absolute bottom-2 left-2 text-xs text-liverpool-magenta/70 font-mono">Métricas de ascenso</span>
+                                </div>
+                                <div class="p-2.5 bg-white">
+                                    <h3 class="text-black font-bold text-[11px] leading-tight mb-1">Garmin Edge 530 GPS Cycling</h3>
+                                    <div class="flex items-center space-x-1.5 mb-2.5">
+                                        <span class="text-liverpool-magenta font-extrabold text-lg">$7,499</span>
+                                        <span class="text-black/50 text-[10px] line-through">$8,200</span>
+                                    </div>
+                                    <button class="w-full py-2 bg-liverpool-magenta hover:bg-liverpool-magenta/90 text-white text-[10px] font-extrabold rounded-lg uppercase tracking-wide shadow-lg transform active:scale-95 transition-all relative overflow-hidden">
+                                        <span class="relative z-10">AGREGAR AL CARRITO</span>
+                                        <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent shimmer-effect"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="snap-center flex-shrink-0 w-4"></div>
+                        </div>
+                    </div>
+                    <p class="text-black/60 text-xs pl-2 break-words" style="word-break: break-word; overflow-wrap: break-word;">
+                        Te sugiero empezar con los geles para asegurar la energía. ¿Te los preparo?
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Footer discreto NADS -->
+            <div id="nadsFooter" class="flex items-center justify-center gap-3 py-6 mt-8 opacity-60 hover:opacity-80 transition-opacity duration-300" style="width: 100%;">
+                <span class="text-sm text-gray-500 font-light tracking-wide">Diseñado por</span>
+                <img src="./1.png" alt="NADS" class="h-10 w-auto object-contain opacity-90" style="max-height: 40px; min-height: 32px;">
+                </div>
+            </div>
+        </section>
+
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-liverpool-magenta/20 flex items-center space-x-3">
+            <input 
+                type="text" 
+                id="chatInput" 
+                placeholder="Escribe tu respuesta..." 
+                class="flex-1 bg-white rounded-full h-12 flex items-center px-4 border border-liverpool-magenta/20 text-black text-sm focus:outline-none focus:ring-2 focus:ring-liverpool-magenta/50 focus:border-liverpool-magenta"
+                autocomplete="off"
+            >
+            <button 
+                id="sendButton"
+                class="h-12 w-12 rounded-full bg-liverpool-magenta flex items-center justify-center shadow-liverpool-magenta hover:bg-liverpool-magenta/90 transition-colors cursor-pointer"
+                onclick="sendMessage()"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white rotate-90" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                </svg>
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatSection = document.getElementById('chatSection');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        
+        // Función para asegurar que el footer NADS siempre esté al final
+        function ensureNadsFooterAtEnd() {
+            const nadsFooter = document.getElementById('nadsFooter');
+            if (nadsFooter && nadsFooter.parentNode) {
+                // Mover el footer al final del contenedor de mensajes
+                chatMessages.appendChild(nadsFooter);
+            }
+        }
+
+        // ============================================
+        // CONFIGURACIÓN GEMINI API
+        // ============================================
+        const GEMINI_API_KEY = 'AIzaSyDhkRsRMnWXqXfZMzVQh6MtG_YEajhe6Cc';
+        const GEMINI_MODEL = 'gemini-2.5-flash';
+        const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
+        // Prompt del sistema para el asistente
+        const SYSTEM_INSTRUCTION = `Eres un coach de ciclismo de élite con mentalidad analítica y empática. Tu enfoque:
+
+IDENTIDAD:
+- Coach certificado con 15+ años entrenando ciclistas profesionales y amateur
+- Especializado en preparación física, mental y equipamiento de alta gama
+- Mentalidad estratégica: analizas patrones, anticipas necesidades, ofreces soluciones personalizadas
+
+METODOLOGÍA:
+1. ESCUCHA activamente lo que el ciclista comparte (miedos, metas, dudas)
+2. VALIDA sus emociones ("entiendo que...", "es normal sentir...")
+3. ANALIZA el contexto (nivel, condición, objetivo)
+4. RECOMIENDA acción concreta + motivación
+5. SUGIERE equipamiento específico de Liverpool que optimice su rendimiento
+
+TONO:
+- Cálido pero directo
+- Motivador sin ser cursi
+- Técnico cuando es necesario, simple cuando no
+- Genuinamente interesado en su progreso
+
+ESTRUCTURA DE RESPUESTA:
+1. Validación emocional (1 oración)
+2. Insight técnico o estratégico (1-2 oraciones)
+3. Recomendación de producto Liverpool con RAZÓN específica de por qué ese producto ayuda (1 oración)
+
+EJEMPLO:
+Usuario: "Me da miedo el km 28, es una bajada muy pronunciada"
+Coach: "Ese miedo es tu cerebro protegiéndote, es válido. La clave en bajadas técnicas es controlar la velocidad ANTES de la curva, no durante. Para eso necesitas frenos confiables: el sistema de frenos hidráulicos Shimano XT que tiene Liverpool te da ese control milimétrico que necesitas en descensos exigentes."
+
+PRODUCTOS LIVERPOOL (menciona según contexto):
+- Hidratación: Botellas CamelBak, Cinturones de hidratación
+- Nutrición: Geles energéticos GU, barras Clif Bar
+- Seguridad: Cascos POC, luces Garmin, chalecos reflejantes
+- Equipamiento: Jerseys Pearl Izumi, shorts con badana Castelli
+- Tecnología: Ciclocomputadores Garmin Edge, monitores de frecuencia cardíaca
+- Accesorios: Bombas de CO2, kits de reparación, guantes especializados
+
+LÍMITE: Máximo 60-80 palabras por respuesta. Conciso, potente, accionable.`;
+
+        // Historial de conversación
+        let conversationHistory = [];
+
+        // ============================================
+        // PRODUCTOS LIVERPOOL
+        // ============================================
+        // ============================================
+        // BASE DE DATOS DE PRODUCTOS LIVERPOOL
+        // ============================================
+        // Las imágenes se generan AUTOMÁTICAMENTE usando el SKU
+        // NO se requieren URLs manuales
+        const liverpoolProducts = {
+            'guantes': [
+                { 
+                    name: 'Guantes Nike para Entrenamiento', 
+                    price: 709, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1587464950674-c2c89828946d?w=400&h=400&fit=crop&q=80',
+                    sku: '1105391382'
+                },
+                { 
+                    name: 'Guantes Under Armour Training', 
+                    price: 899, 
+                    oldPrice: 1100,
+                    image: 'https://images.unsplash.com/photo-1622445275463-afa2ab738c34?w=400&h=400&fit=crop&q=80',
+                    sku: '1106093845'
+                },
+                { 
+                    name: 'Guantes Puma Deportivos', 
+                    price: 549, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400&h=400&fit=crop&q=80',
+                    sku: '1092657384'
+                }
+            ],
+            'hidratacion': [
+                { 
+                    name: 'Botella CamelBak Podium 620ml', 
+                    price: 399, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop&q=80',
+                    sku: '1162181609'
+                },
+                { 
+                    name: 'Mochila Hidratación CamelBak', 
+                    price: 1799, 
+                    oldPrice: 2199,
+                    image: 'https://images.unsplash.com/photo-1622260614153-03223fb72052?w=400&h=400&fit=crop&q=80',
+                    sku: '1084561234'
+                },
+                { 
+                    name: 'Sistema Hidratación Portátil', 
+                    price: 899, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=400&fit=crop&q=80',
+                    sku: '1030612345'
+                }
+            ],
+            'nutricion': [
+                { 
+                    name: 'Proteína Birdman Falcon Fresa', 
+                    price: 1069, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1579722820308-d74e571900a9?w=400&h=400&fit=crop&q=80',
+                    sku: '1103318315'
+                },
+                { 
+                    name: 'Geles Energéticos GU Energy', 
+                    price: 449, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=400&fit=crop&q=80',
+                    sku: '1087553937'
+                },
+                { 
+                    name: 'Barras Energéticas Clif Bar', 
+                    price: 299, 
+                    oldPrice: 399,
+                    image: 'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=400&h=400&fit=crop&q=80',
+                    sku: '1122334455'
+                }
+            ],
+            'seguridad': [
+                { 
+                    name: 'Casco POC Ciclismo', 
+                    price: 2899, 
+                    oldPrice: 3499,
+                    image: 'https://images.unsplash.com/photo-1567270671170-fdc10a5bf831?w=400&h=400&fit=crop&q=80',
+                    sku: '1129876543'
+                },
+                { 
+                    name: 'Luz Trasera LED Garmin', 
+                    price: 4999, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1580654712603-eb43273aff33?w=400&h=400&fit=crop&q=80',
+                    sku: '1078337270'
+                },
+                { 
+                    name: 'Chaleco Reflectante Seguridad', 
+                    price: 699, 
+                    oldPrice: 899,
+                    image: 'https://images.unsplash.com/photo-1598522325074-042db73aa4e6?w=400&h=400&fit=crop&q=80',
+                    sku: '1100112233'
+                }
+            ],
+            'tecnologia': [
+                { 
+                    name: 'Garmin Forerunner 55', 
+                    price: 3519, 
+                    oldPrice: 4399,
+                    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&h=400&fit=crop&q=80',
+                    sku: '1117599251'
+                },
+                { 
+                    name: 'Reloj Garmin Instinct Solar', 
+                    price: 8799, 
+                    oldPrice: 10999,
+                    image: 'https://images.unsplash.com/photo-1575058752200-a9d3c4e8f1f7?w=400&h=400&fit=crop&q=80',
+                    sku: '1049090885'
+                },
+                { 
+                    name: 'Ciclocomputador GPS Garmin', 
+                    price: 5999, 
+                    oldPrice: 6999,
+                    image: 'https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=400&h=400&fit=crop&q=80',
+                    sku: '1109675283'
+                }
+            ],
+            'default': [
+                { 
+                    name: 'Jersey Ciclismo Profesional', 
+                    price: 1299, 
+                    oldPrice: 1699, 
+                    image: 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=400&h=400&fit=crop&q=80',
+                    sku: '1142184772'
+                },
+                { 
+                    name: 'Botella CamelBak Podium', 
+                    price: 399, 
+                    oldPrice: null,
+                    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop&q=80',
+                    sku: '1162181609'
+                },
+                { 
+                    name: 'Garmin Forerunner 55', 
+                    price: 3519, 
+                    oldPrice: 4399,
+                    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&h=400&fit=crop&q=80',
+                    sku: '1117599251'
+                }
+            ]
+        };
+
+        // ============================================
+        // FUNCIÓN: Generar URL de imagen automáticamente
+        // ============================================
+        // Intenta múltiples formatos de URL de Liverpool basados en el SKU
+        function getProductImageUrl(product) {
+            // Prioridad 1: Usar imagen del objeto si existe
+            if (product.image) {
+                return product.image;
+            }
+            
+            // Prioridad 2: Generar URL desde SKU usando formato de Liverpool
+            if (product.sku) {
+                // Formato que funciona: https://ss632.liverpool.com.mx/xl/[SKU].jpg
+                return `https://ss632.liverpool.com.mx/xl/${product.sku}.jpg`;
+            }
+            
+            // Sin SKU = sin imagen
+            return null;
+        }
+
+        // Función para extraer keywords específicos del mensaje del AI
+        function extractProductKeywords(message) {
+            const msg = message.toLowerCase();
+            const keywords = [];
+            
+            // Marcas mencionadas
+            const brands = ['specialized', 'pearl izumi', 'bontrager', 'camelbak', 'nathan', 'garmin', 'poc', 'polar', 'castelli', 'lezyne', 'gu energy', 'clif bar', 'gatorade'];
+            brands.forEach(brand => {
+                if (msg.includes(brand)) keywords.push(brand);
+            });
+            
+            // Productos específicos mencionados
+            const products = ['guante', 'botella', 'cinturón', 'gel', 'barra', 'casco', 'luz', 'chaleco', 'ciclocomputador', 'monitor', 'gps', 'jersey', 'short', 'kit', 'zapato', 'zapatos', 'calzado', 'pie', 'pies', 'suela', 'carbono'];
+            products.forEach(product => {
+                if (msg.includes(product)) keywords.push(product);
+            });
+            
+            return keywords;
+        }
+
+        // Función para buscar productos específicos por keywords
+        function findProductsByKeywords(keywords, category) {
+            const allProducts = liverpoolProducts[category] || liverpoolProducts['default'];
+            const foundProducts = [];
+            
+            keywords.forEach(keyword => {
+                allProducts.forEach(product => {
+                    const productName = product.name.toLowerCase();
+                    if (productName.includes(keyword) && !foundProducts.find(p => p.name === product.name)) {
+                        foundProducts.push(product);
+                    }
+                });
+            });
+            
+            return foundProducts;
+        }
+
+        // Función para detectar categoría basada en palabras clave (versión mejorada)
+        function detectCategory(message) {
+            const msg = message.toLowerCase();
+            
+            // Detección por palabras clave EXACTAS (prioridad alta)
+            if (msg.includes('guante')) return 'guantes';
+            if (msg.includes('hidratación') || msg.includes('hidratacion') || msg.includes('botella') || msg.includes('agua') || msg.includes('cinturón de hidratación')) return 'hidratacion';
+            if (msg.includes('gel') || msg.includes('nutrición') || msg.includes('nutricion') || msg.includes('energía') || msg.includes('energia') || msg.includes('barra') || msg.includes('alimentación')) return 'nutricion';
+            if (msg.includes('casco') || msg.includes('luz') || msg.includes('chaleco') || msg.includes('seguridad') || msg.includes('protección')) return 'seguridad';
+            if (msg.includes('garmin') || msg.includes('ciclocomputador') || msg.includes('gps') || msg.includes('monitor') || msg.includes('frecuencia cardíaca') || msg.includes('frecuencia cardiaca')) return 'tecnologia';
+            
+            // Detección contextual (prioridad media)
+            if (msg.includes('zapato') || msg.includes('zapatos') || msg.includes('calzado') || msg.includes('pie') || msg.includes('pies') || msg.includes('suela')) return 'default'; // Zapatos van a default por ahora
+            if (msg.includes('freno') || msg.includes('bajada') || msg.includes('descenso')) return 'seguridad';
+            if (msg.includes('subida') || msg.includes('energía') || msg.includes('energia') || msg.includes('cansar')) return 'nutricion';
+            if (msg.includes('ruta') || msg.includes('distancia') || msg.includes('velocidad')) return 'tecnologia';
+            if (msg.includes('mano') || msg.includes('agarre') || msg.includes('manillar')) return 'guantes';
+            
+            // Default: productos generales
+            return 'default';
+        }
+
+        // Función para abrir productos de Liverpool con búsqueda
+        function openLiverpoolProduct(productName, sku) {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+            const isAndroid = /android/i.test(userAgent);
+            const isMobile = isIOS || isAndroid;
+            
+            // Extraer palabras clave del nombre del producto para búsqueda
+            // Remover palabras comunes y mantener solo términos relevantes
+            const searchTerms = productName.toLowerCase()
+                .replace(/guantes?|guante/gi, 'guantes')
+                .replace(/casco|casco/gi, 'casco')
+                .replace(/botella|botella/gi, 'botella')
+                .replace(/cinturón|cinturon/gi, 'cinturon')
+                .replace(/sistema/gi, '')
+                .replace(/especialized|pearl izumi|bontrager|camelbak|nathan|garmin|poc|polar|castelli|lezyne/gi, '')
+                .trim()
+                .split(/\s+/)
+                .filter(word => word.length > 2)
+                .slice(0, 3) // Máximo 3 palabras clave
+                .join(' ');
+            
+            // URL de búsqueda en Liverpool (más confiable que URLs de productos específicos)
+            const searchUrl = `https://www.liverpool.com.mx/tienda?s=${encodeURIComponent(searchTerms || productName.toLowerCase())}`;
+            
+            // Log para debugging
+            
+            if (isMobile) {
+                // En móvil, abrir búsqueda directamente
+                // Liverpool manejará internamente si redirigir a la app
+                window.location.href = searchUrl;
+            } else {
+                // En desktop, abrir en nueva pestaña
+                window.open(searchUrl, '_blank');
+            }
+        }
+
+
+        // Función para mostrar carrusel de productos
+        function showProductCarousel(category, aiMessage) {
+            // SISTEMA DE 3 NIVELES DE PRIORIDAD (como en Sanborns)
+            let products = [];
+            
+            // ============================================
+            // NIVEL 1: Productos específicos por keywords del mensaje del AI
+            // ============================================
+            if (aiMessage) {
+                const keywords = extractProductKeywords(aiMessage);
+                
+                if (keywords.length > 0) {
+                    const foundProducts = findProductsByKeywords(keywords, category);
+                    
+                    if (foundProducts.length > 0) {
+                        products = foundProducts.slice(0, 3);
+                    }
+                }
+            }
+            
+            // ============================================
+            // NIVEL 2: Productos de la categoría detectada
+            // ============================================
+            if (products.length < 3) {
+                const categoryProducts = liverpoolProducts[category] || liverpoolProducts['default'];
+                const remaining = 3 - products.length;
+                
+                // Agregar productos de la categoría que no estén ya en products
+                categoryProducts.forEach(product => {
+                    if (products.length < 3 && !products.find(p => p.name === product.name)) {
+                        products.push(product);
+                    }
+                });
+                
+            }
+            
+            // ============================================
+            // NIVEL 3: Fallback a productos default si aún faltan
+            // ============================================
+            if (products.length === 0) {
+                products = liverpoolProducts['default'].slice(0, 3);
+            }
+            
+            // Log final para depuración
+            
+            // Crear contenedor del carrusel
+            const carouselContainer = document.createElement('div');
+            carouselContainer.className = 'product-carousel-container';
+            carouselContainer.style.cssText = 'width: 100%; margin-top: 16px; margin-bottom: 8px; animation: fadeInUp 0.4s ease-out;';
+            
+            const carousel = document.createElement('div');
+            carousel.className = 'product-carousel';
+            
+            // Generar tarjetas de productos
+            products.forEach(function(product) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                const formattedPrice = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0 }).format(product.price);
+                const oldPriceHtml = product.oldPrice ? `<span class="product-price-old text-xs text-gray-500 line-through ml-1">${new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0 }).format(product.oldPrice)}</span>` : '';
+                
+                // Escapar comillas simples en el nombre del producto para el onclick
+                const escapedProductName = product.name.replace(/'/g, "\\'");
+                
+                // Generar URL de imagen automáticamente desde SKU
+                // NO usa imágenes genéricas, solo URLs reales de Liverpool o placeholder visual
+                const productImageUrl = getProductImageUrl(product);
+                
+                // Si no hay URL de imagen, mostrar placeholder visual (NO genérico)
+                const hasImage = productImageUrl !== null;
+                const imageHtml = hasImage 
+                    ? `<img src="${productImageUrl}" 
+                             alt="${escapeHtml(product.name)}" 
+                             class="product-image" 
+                             style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;">`
+                    : '';
+                
+                card.innerHTML = `
+                    <div class="glass-panel rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300" style="height: 100%; display: flex; flex-direction: column;">
+                        <div class="product-image-container" style="width: 100%; height: 160px; overflow: hidden; background: linear-gradient(to bottom, #f3f4f6, #e5e7eb); position: relative; flex-shrink: 0;">
+                            ${imageHtml}
+                            <div class="product-image-fallback" style="display: ${hasImage ? 'none' : 'flex'}; width: 100%; height: 100%; background: linear-gradient(135deg, #E10098 0%, #ff1493 100%); border-radius: 8px; align-items: center; justify-content: center; color: white; font-weight: bold; text-align: center; padding: 20px; position: absolute; top: 0; left: 0; font-size: 11px; line-height: 1.3;">
+                                ${escapeHtml(product.name)}
+                            </div>
+                        </div>
+                        <div class="p-3 bg-white" style="flex: 1; display: flex; flex-direction: column;">
+                            <h3 class="text-xs font-semibold text-black mb-2" style="min-height: 32px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">${escapeHtml(product.name)}</h3>
+                            <div class="flex items-center mb-2" style="flex-shrink: 0;">
+                                <span class="text-liverpool-magenta font-bold text-sm" style="color: #E10098;">${formattedPrice}</span>
+                                ${oldPriceHtml}
+                            </div>
+                            <button onclick="openLiverpoolProduct('${escapedProductName}', '${product.sku}')" class="w-full py-2 bg-liverpool-magenta hover:bg-liverpool-magenta/90 text-white text-[10px] font-bold rounded-lg uppercase tracking-wide transition-colors duration-200" style="background-color: #E10098; border: none; cursor: pointer; margin-top: auto;">
+                                VER PRODUCTO
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Agregar handler para imágenes que no cargan
+                // Si la imagen de Liverpool falla, mostrar placeholder visual (NO genérico)
+                const productImage = card.querySelector('.product-image');
+                const productFallback = card.querySelector('.product-image-fallback');
+                
+                if (productImage && productFallback) {
+                    productImage.onerror = function() {
+                        // Intentar variantes de URL de Liverpool
+                        const currentUrl = this.src;
+                        if (currentUrl.includes('_1.jpg') === false) {
+                            // Intentar con _1.jpg
+                            this.src = currentUrl.replace('.jpg', '_1.jpg');
+                            return;
+                        }
+                        if (currentUrl.includes('_large.jpg') === false) {
+                            // Intentar con _large.jpg
+                            this.src = currentUrl.replace('_1.jpg', '_large.jpg');
+                            return;
+                        }
+                        // Si todas las variantes fallan, mostrar placeholder visual
+                        this.style.display = 'none';
+                        if (productFallback) {
+                            productFallback.style.display = 'flex';
+                        }
+                    };
+                }
+                
+                carousel.appendChild(card);
+            });
+            
+            carouselContainer.appendChild(carousel);
+            
+            // Insertar después del último mensaje AI
+            const lastMessage = chatMessages.lastElementChild;
+            if (lastMessage) {
+                chatMessages.insertBefore(carouselContainer, lastMessage.nextSibling);
+            } else {
+                chatMessages.appendChild(carouselContainer);
+            }
+            
+            // Scroll suave al carrusel
+            setTimeout(function() {
+                carouselContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function callGeminiAPI(userMessage, loadingDiv) {
+            // 1. Agregar mensaje del usuario al historial
+            conversationHistory.push({ role: 'user', text: userMessage });
+
+            
+            // 2. Preparar el payload para Gemini (formato simplificado)
+            const requestBody = {
+                contents: [{
+                    parts: [{
+                        text: `${SYSTEM_INSTRUCTION}\n\nUsuario: ${userMessage}`
+                    }]
+                }]
+            };
+
+            // 3. Crear timeout de 10 segundos
+            const timeoutPromise = new Promise(function(_, reject) {
+                setTimeout(function() {
+                    reject(new Error('Timeout: La solicitud tardó demasiado'));
+                }, 10000);
+            });
+
+            // 4. Hacer fetch a Gemini API
+            const fetchPromise = fetch(GEMINI_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            // 5. Manejar respuesta con timeout
+            Promise.race([fetchPromise, timeoutPromise])
+                .then(function(response) {
+                    
+                    if (!response.ok) {
+                        return response.text().then(function(text) {
+                            // Solo loggear errores críticos en producción
+                            console.error('Error en Gemini API:', response.status, text.substring(0, 200));
+                            throw new Error('Error en la respuesta de Gemini API: ' + text);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+
+                    // Remover indicador de carga
+                    if (loadingDiv && loadingDiv.parentNode) {
+                        loadingDiv.remove();
+                    }
+
+                    // Parsear respuesta
+                    const aiMessage = data.candidates[0].content.parts[0].text.trim();
+                    
+
+                    // Agregar respuesta al historial
+                    conversationHistory.push({ role: 'model', text: aiMessage });
+
+                    // Mostrar mensaje en la UI (mantén tu código HTML existente aquí)
+                    const aiResponseDiv = document.createElement('div');
+                    aiResponseDiv.className = 'flex items-start space-x-2 w-full min-w-0 mb-2';
+                    aiResponseDiv.style.cssText = 'width: 100%; min-width: 0; box-sizing: border-box;';
+                    aiResponseDiv.innerHTML = `
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-liverpool-magenta p-[2px] shadow-liverpool-magenta">
+                            <div class="h-full w-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                                <img src="./whats-chat.avif" alt="Liverpool AI" class="h-full w-full object-cover rounded-full">
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0" style="min-width: 0; max-width: 100%; box-sizing: border-box; width: 100%;">
+                            <div class="glass-panel bg-gradient-to-br from-white to-liverpool-magenta/5 text-black p-3 rounded-tl-none rounded-2xl shadow-lg border-l-2 border-liverpool-magenta" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; width: 100%; min-width: 0; display: block;">
+                                <p class="text-sm leading-snug break-words whitespace-normal" style="word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%; width: 100%; display: block; margin: 0; padding: 0; min-height: fit-content; height: auto; overflow: visible;">
+                                    ${escapeHtml(aiMessage)}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.appendChild(aiResponseDiv);
+                    
+                    // Detectar categoría y mostrar carrusel de productos
+                    const category = detectCategory(aiMessage);
+                    showProductCarousel(category, aiMessage);
+                    
+                    // Asegurar que el footer NADS esté al final
+                    ensureNadsFooterAtEnd();
+                    
+                    // Scroll al final
+                    setTimeout(function() {
+                        const maxScroll = chatSection.scrollHeight - chatSection.clientHeight;
+                        chatSection.scrollTop = maxScroll + 50;
+                    }, 100);
+
+                    // Rehabilitar input
+                    chatInput.disabled = false;
+                    sendButton.disabled = false;
+                    chatInput.focus();
+
+                })
+                .catch(function(error) {
+                    console.error('Error en callGeminiAPI:', error);
+
+                    if (loadingDiv && loadingDiv.parentNode) {
+                        loadingDiv.remove();
+                    }
+
+                    // Mostrar mensaje de error (mantén tu código HTML existente)
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'flex items-start space-x-2 w-full min-w-0';
+                    errorDiv.innerHTML = `
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-liverpool-magenta p-[2px] shadow-liverpool-magenta">
+                            <div class="h-full w-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                                <img src="./whats-chat.avif" alt="Liverpool AI" class="h-full w-full object-cover rounded-full">
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="glass-panel bg-gradient-to-br from-white to-liverpool-magenta/5 text-black p-3 rounded-tl-none rounded-2xl shadow-lg border-l-2 border-liverpool-magenta">
+                                <p class="text-sm leading-snug break-words">
+                                    <span class="font-bold text-liverpool-magenta">¡Ups!</span> Lo siento, no pudo conectarse. Intenta de nuevo. 🔄
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.appendChild(errorDiv);
+                    
+                    // Asegurar que el footer NADS esté al final
+                    ensureNadsFooterAtEnd();
+
+                    chatInput.disabled = false;
+                    sendButton.disabled = false;
+                    chatInput.focus();
+
+                });
+        }
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Deshabilitar input mientras procesa
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+
+            // Crear burbuja de mensaje del usuario
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'flex justify-end w-full';
+            userMessageDiv.innerHTML = `
+                <div class="glass-panel text-black p-3 rounded-tr-none rounded-2xl max-w-[90%] min-w-0 shadow-lg" style="word-wrap: break-word; overflow-wrap: break-word;">
+                    <p class="text-sm font-medium leading-snug break-words" style="word-break: break-word; overflow-wrap: break-word;">${escapeHtml(message)}</p>
+                </div>
+            `;
+
+            // Insertar en el contenedor de mensajes
+            chatMessages.appendChild(userMessageDiv);
+            
+            // Asegurar que el footer NADS esté al final
+            ensureNadsFooterAtEnd();
+
+            // Limpiar input
+            chatInput.value = '';
+            
+            // Scroll al final con delay para renderizado
+            requestAnimationFrame(() => {
+                chatSection.scrollTop = chatSection.scrollHeight;
+                setTimeout(() => {
+                    chatSection.scrollTop = chatSection.scrollHeight;
+                }, 50);
+            });
+
+            // Mostrar indicador de carga
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'flex items-start space-x-2 w-full min-w-0';
+            loadingDiv.id = 'loading-indicator';
+            loadingDiv.innerHTML = `
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-liverpool-magenta p-[2px] shadow-liverpool-magenta">
+                    <div class="h-full w-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                        <img src="./whats-chat.avif" alt="Liverpool AI" class="h-full w-full object-cover rounded-full">
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="glass-panel bg-gradient-to-br from-white to-liverpool-magenta/5 text-black p-3 rounded-tl-none rounded-2xl shadow-lg border-l-2 border-liverpool-magenta">
+                        <p class="text-sm leading-snug">
+                            <span class="inline-flex items-center">
+                                <span class="animate-pulse">●</span> Pensando...
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            
+            // Asegurar que el footer NADS esté al final
+            ensureNadsFooterAtEnd();
+            
+            requestAnimationFrame(() => {
+                chatSection.scrollTop = chatSection.scrollHeight;
+            });
+
+            // Llamar a Gemini API usando .then() para compatibilidad
+            callGeminiAPI(message, loadingDiv);
+
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Enviar con Enter
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Focus en el input al cargar
+        window.addEventListener('load', () => {
+            chatInput.focus();
+        });
+
+        // ============================================
+        // TRACKING DE EVENTOS
+        // ============================================
+        function trackEvent(eventName, eventData) {
+            // Google Analytics / Tag Manager
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, eventData);
+            }
+            
+            // Floodlight (Campaign Manager)
+            if (typeof _fl !== 'undefined') {
+                _fl(eventName, eventData);
+            }
+            
+            // Console para debugging (solo en desarrollo)
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                console.log('📊 Event:', eventName, eventData);
+            }
+        }
+
+        // Track conversaciones AI
+        const originalCallGemini = callGeminiAPI;
+        callGeminiAPI = function(userMessage, loadingDiv) {
+            trackEvent('ai_conversation', {
+                message_length: userMessage.length,
+                timestamp: new Date().toISOString()
+            });
+            return originalCallGemini(userMessage, loadingDiv);
+        };
+
+        // Track clicks en productos
+        const originalOpenProduct = openLiverpoolProduct;
+        openLiverpoolProduct = function(productName, sku) {
+            trackEvent('product_click', {
+                product_name: productName,
+                product_sku: sku,
+                timestamp: new Date().toISOString()
+            });
+            return originalOpenProduct(productName, sku);
+        };
+    </script>
+    </main>
+</body>
+</html>

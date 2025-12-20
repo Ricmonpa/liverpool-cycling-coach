@@ -1,0 +1,53 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Build outputs (si en el futuro compilamos)
+dist/
+build/
+
+# Proxy server (no necesario en producción)
+proxy-server.js
+start-proxy.sh
+check-gemini-status.js
+test-gemini-api.js
+gemini-proxy.js
+gemini-proxy-standalone.html
+
+# Documentación de desarrollo (opcional, puedes incluirlos si quieres)
+# INICIO_RAPIDO.md
+# INSTRUCCIONES_RAPIDAS.md
+# PROPUESTA_DEBUG.md
+# RESUMEN_DEBUG.md
+# RESUMEN_EJECUTIVO.md
+# SETUP_PROXY.md
+# VERIFICACION_API.md
+# README_INTEGRACION.md
+
