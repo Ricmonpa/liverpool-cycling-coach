@@ -1,0 +1,19 @@
+{
+  "name": "liverpool-cycling-fest-ai",
+  "version": "1.0.0",
+  "description": "Banner interactivo con AI para Liverpool Cycling Fest",
+  "main": "index.html",
+  "scripts": {
+    "test": "node test-gemini-api.js",
+    "check": "node check-gemini-status.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "firebase-functions": "^4.5.0"
+  },
+  "devDependencies": {},
+  "keywords": ["gemini", "ai", "chatbot", "liverpool", "cycling"],
+  "author": "",
+  "license": "ISC"
+}
+

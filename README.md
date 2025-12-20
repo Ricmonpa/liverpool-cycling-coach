@@ -23,7 +23,23 @@ Banner interactivo con IA conversacional para Liverpool México - Cycling Fest A
 - **Plataforma**: Cloudflare Pages
 - **Dominio**: cycling-liverpool.pottential.site
 - **Versión**: 1.0.0
-- **Peso**: < 200KB (optimizado para DV360)
+- **Peso**: 54 KB (optimizado para DV360)
+- **Git**: Conectado para auto-deployment
+
+### Quick Start Deployment
+
+1. **Crear repositorio en GitHub** (ver `DEPLOYMENT.md`)
+2. **Push inicial**:
+   ```bash
+   git remote add origin https://github.com/tu-usuario/liverpool-cycling-coach.git
+   git commit -m "Initial commit: Liverpool Cycling Coach v1.0.0"
+   git push -u origin main
+   ```
+3. **Conectar en Cloudflare Pages**:
+   - Dashboard → Pages → Create project
+   - Conectar repositorio
+   - Build settings: Framework "None", Output "/"
+   - Deploy automático en cada push
 
 ## Configuración DV360/CM360
 
