@@ -2,9 +2,7 @@
 
 ## Nueva API Key
 
-```
-AIzaSyCt-6SVeTRNu3SiGGEq_FgSvcBF036s9YI
-```
+**IMPORTANTE**: La API Key debe configurarse en Variables Secretas de Cloudflare Pages, NO en este archivo.
 
 ## Pasos para configurar en Cloudflare Pages
 
@@ -22,11 +20,7 @@ AIzaSyCt-6SVeTRNu3SiGGEq_FgSvcBF036s9YI
 3. Busca **"HTML Injection"**
 4. En el campo **"Head"**, pega este código:
 
-```html
-<script>
-    window.GEMINI_API_KEY = 'AIzaSyCt-6SVeTRNu3SiGGEq_FgSvcBF036s9YI';
-</script>
-```
+**NOTA**: Ya no se usa HTML Injection. La API Key se configura en Variables Secretas (ver paso siguiente).
 
 5. Click en **"Save"** (Guardar)
 

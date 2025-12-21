@@ -103,7 +103,7 @@ Agrega en `index.html` antes del script principal:
 1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
 2. Selecciona el proyecto: `liverpool-banner-html`
 3. Ve a "APIs & Services" → "Credentials"
-4. Encuentra la key: `AIzaSyDhkRsRMnWXqXfZMzVQh6MtG_YEajhe6Cc`
+4. Encuentra la key comprometida y elimínala
 5. Click en "Regenerate key"
 6. Copia la nueva key
 7. **NO la subas a GitHub**

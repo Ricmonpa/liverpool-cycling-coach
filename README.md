@@ -21,7 +21,7 @@ Banner interactivo con IA conversacional para Liverpool México - Cycling Fest A
 ## Deployment
 
 - **Plataforma**: Cloudflare Pages
-- **Dominio**: cycling-liverpool.pottential.site
+- **Dominio**: coach-liverpool.potenttial.site
 - **Versión**: 1.0.0
 - **Peso**: 54 KB (optimizado para DV360)
 - **Git**: Conectado para auto-deployment

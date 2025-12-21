@@ -31,10 +31,8 @@
 ## 📋 CONFIGURACIÓN
 
 ### API Key
-Ya configurada en el código:
-```javascript
-const GEMINI_API_KEY = 'AIzaSyDhkRsRMnWXqXfZMzVQh6MtG_YEajhe6Cc';
-```
+**IMPORTANTE**: La API Key está configurada en Variables Secretas de Cloudflare Pages (NO en el código).
+El Workers Function (`/functions/api/gemini.js`) lee la key de forma segura.
 
 ### Contexto del Asistente
 El sistema incluye:

@@ -320,8 +320,17 @@
         const GEMINI_MODEL = 'gemini-2.5-flash';
         
         // Endpoint del Workers Function (proxy seguro)
-        // Cloudflare Pages mapea automáticamente /api/gemini al Workers Function
-        const GEMINI_ENDPOINT = '/api/gemini';
+        // Detecta automáticamente si está en desarrollo o producción
+        const isLocalhost = window.location.protocol === 'file:' || 
+                           window.location.hostname === 'localhost' || 
+                           window.location.hostname === '127.0.0.1';
+        
+        // Si está en desarrollo local, usar el dominio de Cloudflare Pages
+        // Reemplaza 'liverpool-cycling-coach' con el nombre real de tu proyecto
+        const CLOUDFLARE_PAGES_DOMAIN = 'liverpool-cycling-coach.pages.dev';
+        const GEMINI_ENDPOINT = isLocalhost 
+            ? `https://${CLOUDFLARE_PAGES_DOMAIN}/api/gemini`
+            : '/api/gemini';
 
         // Prompt del sistema para el asistente
         const SYSTEM_INSTRUCTION = `Eres un coach de ciclismo de élite con mentalidad analítica y empática. Tu enfoque:

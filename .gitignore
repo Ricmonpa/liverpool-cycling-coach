@@ -21,6 +21,9 @@ node_modules/
 config.js
 api-key.js
 secrets.js
+*.key
+*api-key*
+*secret*
 
 # IDE
 .vscode/
