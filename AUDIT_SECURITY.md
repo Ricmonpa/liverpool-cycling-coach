@@ -61,7 +61,7 @@ grep -r "GEMINI_API_KEY.*=" . --exclude-dir=.git
 - **Variable**: `GEMINI_API_KEY`
 - **Ubicación**: Cloudflare Pages → Settings → Variables and Secrets
 - **Estado**: ✅ Configurada correctamente
-- **Valor**: `AIzaSyBRX40ORBEHIUMayqQVqI2fEvkb-UCge5o` (nueva, no comprometida)
+- **Valor**: Configurada en Variables Secretas (no expuesta)
 
 ### Restricciones de API Key (Google Cloud)
 - ✅ **HTTP Referrers**: Configurados
