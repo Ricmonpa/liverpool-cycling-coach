@@ -23,15 +23,20 @@ export async function onRequestPost(context) {
         // Obtener el body de la solicitud
         const requestBody = await request.json();
         
+        // Obtener el origin/referer de la solicitud original
+        const origin = request.headers.get('Origin') || request.headers.get('Referer') || 'https://coach-liverpool.potenttial.site';
+        
         // Construir URL de Gemini API
         const GEMINI_MODEL = 'gemini-2.5-flash';
         const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
         
         // Hacer la solicitud a Gemini API
+        // IMPORTANTE: Agregar Referer header para que Google Cloud valide las restricciones
         const geminiResponse = await fetch(GEMINI_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Referer': origin, // Pasar el referrer original
             },
             body: JSON.stringify(requestBody)
         });
