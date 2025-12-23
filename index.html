@@ -44,6 +44,17 @@
                 @apply bg-white/90 backdrop-blur-lg border border-liverpool-magenta/20;
             }
             
+            /* Video de fondo */
+            #bgVideo {
+                object-fit: cover;
+                object-position: center;
+            }
+            
+            /* Overlay gradient para legibilidad del chat sobre video */
+            .video-overlay {
+                background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+            }
+            
             /* Asegurar que el texto no se corte */
             * {
                 box-sizing: border-box;
@@ -152,9 +163,40 @@
 </head>
 <body>
 
-    <main class="absolute top-0 left-0 w-full max-w-[390px] h-[700px] bg-white rounded-[30px] overflow-hidden shadow-2xl border border-liverpool-magenta/30 m-4" style="overflow-x: hidden !important;">
+    <main class="absolute top-0 left-0 w-full max-w-[390px] h-[700px] bg-black rounded-[30px] overflow-hidden shadow-2xl border border-liverpool-magenta/30 m-4" style="overflow-x: hidden !important; position: relative;">
         
-        <header class="relative z-10 flex items-center justify-between p-5 bg-liverpool-magenta backdrop-blur-md border-b border-liverpool-magenta/30">
+        <!-- Video de fondo -->
+        <video 
+            id="bgVideo"
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            class="absolute top-0 left-0 w-full h-full object-cover z-0"
+        >
+            <source src="./Cyclist_s_Mexican_Mountain_Descent.mp4" type="video/mp4">
+        </video>
+        
+        <!-- Overlay gradient para legibilidad -->
+        <div class="absolute top-0 left-0 w-full h-full video-overlay z-10"></div>
+        
+        <!-- Badge "EN VIVO" -->
+        <div class="absolute top-4 left-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-white text-xs font-bold shadow-lg z-30 flex items-center gap-2">
+            <span class="h-2 w-2 bg-red-500 rounded-full animate-pulse"></span>
+            CYCLING FEST AI
+        </div>
+        
+        <!-- Botón de audio (unmute) -->
+        <button 
+            id="unmuteBtn"
+            onclick="toggleAudio()"
+            class="absolute top-4 right-4 bg-white/20 backdrop-blur-md border border-white/30 p-2 rounded-full text-white hover:bg-white/30 transition z-30 shadow-lg"
+            aria-label="Activar/desactivar audio"
+        >
+            <span id="unmuteIcon">🔇</span>
+        </button>
+        
+        <header class="relative z-20 flex items-center justify-between p-5 bg-gradient-to-r from-liverpool-magenta/90 to-liverpool-magenta/70 backdrop-blur-md border-b border-white/20">
             <div class="flex items-center space-x-3">
                 <!-- Logo Liverpool -->
                 <div class="flex-shrink-0">
@@ -170,9 +212,7 @@
             <div class="h-3 w-3 rounded-full bg-white animate-pulse shadow-lg"></div>
         </header>
 
-        <section id="chatSection" class="relative z-0 px-3 py-4 overflow-y-auto scrollbar-hide" style="overflow-x: hidden; width: 100%; box-sizing: border-box; height: calc(100% - 80px - 88px); padding-bottom: 180px; margin-bottom: 0;">
-            <div class="absolute top-20 left-0 w-64 h-64 bg-liverpool-magenta/10 rounded-full filter blur-[80px] -z-10"></div>
-            <div class="absolute bottom-40 right-0 w-40 h-40 bg-liverpool-magenta/10 rounded-full filter blur-[60px] -z-10"></div>
+        <section id="chatSection" class="relative z-20 px-3 py-4 overflow-y-auto scrollbar-hide" style="overflow-x: hidden; width: 100%; box-sizing: border-box; height: calc(100% - 80px - 88px); padding-bottom: 180px; margin-bottom: 0;">
             
             <div id="chatMessages" class="space-y-4" style="width: 100%; box-sizing: border-box; overflow: visible;">
             <div class="flex justify-end w-full">
@@ -277,7 +317,7 @@
             </div>
         </section>
 
-        <div class="absolute bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-liverpool-magenta/20 flex items-center space-x-3">
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-white/20 flex items-center space-x-3 z-20">
             <input 
                 type="text" 
                 id="chatInput" 
@@ -321,14 +361,14 @@
         
         // Endpoint del Workers Function (proxy seguro)
         // Detecta automáticamente si está en desarrollo o producción
-        const isLocalhost = window.location.protocol === 'file:' || 
-                           window.location.hostname === 'localhost' || 
+        const isFileProtocol = window.location.protocol === 'file:';
+        const isLocalhost = window.location.hostname === 'localhost' || 
                            window.location.hostname === '127.0.0.1';
         
-        // Si está en desarrollo local, usar el dominio de Cloudflare Pages
-        // Reemplaza 'liverpool-cycling-coach' con el nombre real de tu proyecto
-        const CLOUDFLARE_PAGES_DOMAIN = 'liverpool-cycling-coach.pages.dev';
-        const GEMINI_ENDPOINT = isLocalhost 
+        // Si está en file:// o localhost, usar el dominio completo de Cloudflare Pages
+        // En producción, usar ruta relativa
+        const CLOUDFLARE_PAGES_DOMAIN = 'coach-liverpool.potenttial.site';
+        const GEMINI_ENDPOINT = (isFileProtocol || isLocalhost)
             ? `https://${CLOUDFLARE_PAGES_DOMAIN}/api/gemini`
             : '/api/gemini';
 
@@ -1002,6 +1042,92 @@ LÍMITE: Máximo 60-80 palabras por respuesta. Conciso, potente, accionable.`;
         // Focus en el input al cargar
         window.addEventListener('load', () => {
             chatInput.focus();
+        });
+
+        // ============================================
+        // CONTROL DE VIDEO Y AUDIO
+        // ============================================
+        function toggleAudio() {
+            const video = document.getElementById('bgVideo');
+            const btn = document.getElementById('unmuteBtn');
+            const icon = document.getElementById('unmuteIcon');
+            
+            if (video.muted) {
+                video.muted = false;
+                icon.textContent = '🔊';
+                
+                // Track unmute event
+                trackEvent('video_unmute', {
+                    timestamp: new Date().toISOString()
+                });
+            } else {
+                video.muted = true;
+                icon.textContent = '🔇';
+            }
+        }
+
+        // Inicializar video al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('bgVideo');
+            
+            // Intentar reproducir (algunos navegadores lo bloquean hasta interacción)
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(function(error) {
+                    // Autoplay bloqueado, esperando interacción del usuario
+                    console.log('Autoplay bloqueado, esperando interacción del usuario');
+                });
+            }
+            
+            // Reproducir después de primera interacción
+            function playVideoOnInteraction() {
+                video.play().catch(function(error) {
+                    console.log('Error al reproducir video:', error);
+                });
+            }
+            
+            // Intentar reproducir en cualquier interacción
+            document.addEventListener('click', playVideoOnInteraction, { once: true });
+            document.addEventListener('touchstart', playVideoOnInteraction, { once: true });
+            
+            // Tracking de eventos de video
+            video.addEventListener('play', function() {
+                trackEvent('video_play', { 
+                    timestamp: new Date().toISOString() 
+                });
+            });
+            
+            video.addEventListener('ended', function() {
+                trackEvent('video_complete', { 
+                    timestamp: new Date().toISOString() 
+                });
+            });
+            
+            // Fallback si video falla
+            video.addEventListener('error', function() {
+                console.error('Error al cargar video, mostrando fallback');
+                video.style.display = 'none';
+                
+                const fallback = document.createElement('div');
+                fallback.className = 'absolute top-0 left-0 w-full h-full bg-cover bg-center z-0';
+                fallback.style.backgroundColor = '#000000';
+                fallback.style.backgroundImage = 'linear-gradient(135deg, #E10098 0%, #000000 100%)';
+                // Intentar cargar poster si existe, si no usar gradiente
+                const posterImg = new Image();
+                posterImg.onload = function() {
+                    fallback.style.backgroundImage = 'url(./video-poster.jpg)';
+                };
+                posterImg.onerror = function() {
+                    // Mantener gradiente si no hay poster
+                };
+                posterImg.src = './video-poster.jpg';
+                video.parentElement.insertBefore(fallback, video);
+                
+                trackEvent('video_error', {
+                    timestamp: new Date().toISOString()
+                });
+            });
         });
 
         // ============================================
