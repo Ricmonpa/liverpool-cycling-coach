@@ -57,12 +57,12 @@
   - ✅ "Ninguna" (para Workers Functions)
 - [ ] **Eliminar keys antiguas comprometidas**
 
-### Cloudflare Pages
+### Cloudflare Pages ✅
 
-- [ ] **Variables Secretas**:
+- [x] **Variables Secretas**:
   - Variable: `GEMINI_API_KEY`
-  - Valor: [Configurar en Variables Secretas de Cloudflare Pages]
-  - ✅ Encriptada automáticamente
+  - Valor: Configurada (encriptada automáticamente)
+  - ✅ Guardada correctamente
 - [ ] **Verificar deployment** después de actualizar
 
 ## 🛡️ MEDIDAS DE PROTECCIÓN ACTIVAS
@@ -108,8 +108,8 @@ Antes de hacer deployment, verificar:
 - ✅ **.gitignore**: Actualizado y completo
 - ✅ **Código**: Seguro (sin API Keys)
 - ✅ **Documentación**: Limpia (sin API Keys)
-- ⏳ **Google Cloud**: Pendiente de configurar nueva key
-- ⏳ **Cloudflare Pages**: Pendiente de actualizar Variables Secretas
+- ⏳ **Google Cloud**: Pendiente de configurar nueva key con restricciones
+- ✅ **Cloudflare Pages**: API Key configurada en Variables Secretas
 
 ---
 
