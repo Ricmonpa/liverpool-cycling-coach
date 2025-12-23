@@ -69,3 +69,13 @@ GITGUARDIAN*.md
 AUDIT*.md
 # SECURITY_PLAN.md está permitido (solo contiene el plan, sin keys)
 
+# Archivos de configuración con secrets
+.env*
+*.env
+config.json
+secrets.json
+credentials.json
+*.pem
+*.key
+*.cert
+
