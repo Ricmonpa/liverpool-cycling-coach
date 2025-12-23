@@ -14,7 +14,7 @@ GitGuardian detectó una API Key de Google expuesta en el historial de Git:
    - El código actual NO contiene la API Key
 
 2. ✅ **API Key rotada en Google Cloud**
-   - Nueva API Key: `AIzaSyBRX40ORBEHIUMayqQVqI2fEvkb-UCge5o`
+   - Nueva API Key: Configurada en Variables Secretas (no expuesta)
    - La key antigua debería estar deshabilitada/eliminada
 
 3. ✅ **Workers Function implementado**
@@ -31,9 +31,8 @@ GitGuardian detectó una API Key de Google expuesta en el historial de Git:
    - APIs & Services → Credentials
 
 2. **Verifica/elimina la key antigua**:
-   - Busca: `AIzaSyCt-6SVeTRNu3SiGGEq_FgSvcBF036s9YI`
-   - Si existe, elimínala o desactívala
-   - Confirma que la nueva key (`AIzaSyBRX40ORBEHIUMayqQVqI2fEvkb-UCge5o`) esté activa
+   - Busca y elimina todas las keys comprometidas
+   - Confirma que la nueva key esté activa en Variables Secretas de Cloudflare Pages
 
 3. **Verifica restricciones**:
    - La nueva key debe tener restricciones de HTTP Referrers

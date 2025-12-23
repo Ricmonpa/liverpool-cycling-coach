@@ -59,3 +59,13 @@ gemini-proxy-standalone.html
 # VERIFICACION_API.md
 # README_INTEGRACION.md
 
+# Archivos con información sensible (NUNCA subir a Git)
+*SECRET*.md
+*API_KEY*.md
+*PASSWORD*.md
+*CREDENTIAL*.md
+*KEY*.md
+GITGUARDIAN*.md
+AUDIT*.md
+# SECURITY_PLAN.md está permitido (solo contiene el plan, sin keys)
+
